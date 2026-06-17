@@ -617,7 +617,7 @@ class TFT(object) :
   def initr( self ) :
     '''Initialize a red tab version.'''
     self._reset() 
-    self.setStart(26, 1)
+    self.setStart(0, 26)
     self._writecommand(TFT.SWRESET)              #Software reset.
     time.sleep_us(150)
     self._writecommand(TFT.SLPOUT)               #out of sleep mode.
