@@ -1,3 +1,49 @@
 UISNG https://coxxect.blogspot.com/2023/01/raspberry-pi-pico-wmicropython-x-096.html
 
+So there is one line of code "self.setStart(0, 26)" 
+This line of code change the offset. If you see any abnormal on the screen.
+
+How Wrong Offset Values Cause Display Problems
+The setStart(26, 1) in initr() sets the memory offset for the display. Here's how it works and why wrong values cause problems:
+Below is the LLM explaination
+#####################################################################################################################
+What setStart does:
+python
+def setStart(self, colstart, rowstart):
+    self._offset[0] = colstart  # Column offset
+    self._offset[1] = rowstart  # Row offset
+These offsets tell the display where the visible area starts in the controller's memory. The ST7735 controller has more memory than the 80x160 visible pixels, so it needs to know which part of its memory to display.
+
+Visual explanation:
+text
+ST7735 Controller Memory (larger than visible):
+┌─────────────────────────────────┐
+│  H  W  [lots of other data]    │ ← Offset (0,0) - wrong start
+│  80x160 visible area           │
+│  [more unused memory]          │
+└─────────────────────────────────┘
+
+With correct offset (26,1):
+┌─────────────────────────────────┐
+│  [unused memory]               │
+│  ┌──────────────────┐          │
+│  │  80x160 visible  │          │ ← Offset (26,1) - correct start
+│  │  display area    │          │
+│  └──────────────────┘          │
+│  [unused memory]               │
+└─────────────────────────────────┘
+How "HW" appears:
+Memory contains random/manufacturer data:
+The ST7735's RAM might contain test patterns, random data, or manufacturer identifiers from production testing.
+
+Wrong offset shows wrong memory region:
+If the offset is wrong, the display shows a different part of the controller's memory where "HW" or other artifacts happen to be stored.
+
+Example scenario:
+
+python
+# If your display needs offset (0,0) but you use (26,1):
+self.setStart(26, 1)  # Shows memory starting at column 26, row 1
+# The "HW" might be at memory position (0,0) which is now hidden
+# But other artifacts might appear from the shifted memory region
 
