@@ -3,10 +3,11 @@ UISNG https://coxxect.blogspot.com/2023/01/raspberry-pi-pico-wmicropython-x-096.
 So there is one line of code "self.setStart(0, 26)" 
 This line of code change the offset. If you see any abnormal on the screen.
 
-How Wrong Offset Values Cause Display Problems
-The setStart(26, 1) in initr() sets the memory offset for the display. Here's how it works and why wrong values cause problems:
 Below is the LLM explaination
 #####################################################################################################################
+How Wrong Offset Values Cause Display Problems
+The setStart(26, 1) in initr() sets the memory offset for the display. Here's how it works and why wrong values cause problems:
+
 What setStart does:
 python
 def setStart(self, colstart, rowstart):
